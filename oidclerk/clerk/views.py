@@ -28,22 +28,10 @@ def set_cookie(response, key, value):
 def get_digest(uid, host, port, room):
     return hmac.new(HMAC_KEY, str.encode(f'{uid}, {host}, {port}, {room}'), sha256).hexdigest()
 
-def check(request):
-    for key in ['jwt', 'WS_UID', 'WS_HOST', 'WS_PORT', 'WS_ROOM']:
-        if key not in request.COOKIES:
-            return None
-    decoded = jwt.decode(request.COOKIES['jwt'], PUBLIC_KEY, algorithms=ALGO)
-    if decoded['digest'] != get_digest(request.COOKIES.get('WS_UID'), request.COOKIES.get('WS_HOST'), request.COOKIES.get('WS_PORT'), request.COOKIES.get('WS_ROOM')):
-        return None
-    return HttpResponse('', status=200)
 
 
 @login_required
 def craft(request):
-    r_check = check(request)
-    if r_check is not None:
-        return r_check
-
     social_user = get_object_or_404(UserSocialAuth, user=request.user)
     uid = social_user.uid
     host = social_user.extra_data['ws_host']
@@ -61,3 +49,12 @@ def craft(request):
                        ('WS_PORT', port), ('WS_ROOM', room), ('WS_PORT_VIEWER', port_viewer)]:
         set_cookie(response, key, value)
     return response
+
+def check(request):
+    for key in ['jwt', 'WS_UID', 'WS_HOST', 'WS_PORT', 'WS_ROOM']:
+        if key not in request.COOKIES:
+            return HttpResponse('', status=403)
+    decoded = jwt.decode(request.COOKIES['jwt'], PUBLIC_KEY, algorithms=ALGO)
+    if decoded['digest'] != get_digest(request.COOKIES.get('WS_UID'), request.COOKIES.get('WS_HOST'), request.COOKIES.get('WS_PORT'), request.COOKIES.get('WS_ROOM')):
+        return HttpResponse('', status=403)
+    return HttpResponse('', status=200)
