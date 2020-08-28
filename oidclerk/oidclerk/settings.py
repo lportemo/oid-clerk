@@ -25,7 +25,7 @@ SECRET_KEY = 'changeme'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.1.1']
+ALLOWED_HOSTS = ['127.0.1.1', 'localhost']
 
 
 # Application definition
