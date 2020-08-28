@@ -1,8 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.shortcuts import redirect
 
 from social_django.models import UserSocialAuth
 
@@ -44,7 +45,7 @@ def craft(request):
     jwt_encoded = encoded_jwt = jwt.encode(payload, PRIVATE_KEY, algorithm=ALGO).decode()
 
 
-    response = HttpResponse('', status=200)
+    response = HttpResponseRedirect('https://ide.prologin.dev')
     for key, value in [('jwt', jwt_encoded), ('WS_UID', uid), ('WS_HOST', host),
                        ('WS_PORT', port), ('WS_ROOM', room), ('WS_PORT_VIEWER', port_viewer)]:
         set_cookie(response, key, value)
