@@ -126,10 +126,10 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-OIDC_ENDPOINT = 'http://127.0.0.1:20150/openid'
-SOCIAL_AUTH_OIDCLERK_KEY = 'client'
-SOCIAL_AUTH_OIDCLERK_SECRET = 'secret'
-SOCIAL_AUTH_OIDCLERK_ISSUER = 'http://127.0.0.1:20150/openid'
+OIDC_ENDPOINT = 'https://prologin.dev/openid'
+SOCIAL_AUTH_OIDCLERK_KEY = '028661'
+SOCIAL_AUTH_OIDCLERK_SECRET = '8974f4ceb7b709b144bf0016bdde741966a19bc168482795a5ce97d2'
+SOCIAL_AUTH_OIDCLERK_ISSUER = 'https://prologin.dev/openid'
 
 SOCIAL_AUTH_PIPELINE = (
     # Get the information we can about the user and return it in a simple
