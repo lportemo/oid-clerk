@@ -176,3 +176,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'clerk.oidc_pipeline.save_all_claims_as_extra_data',
 )
+
+CLERK_PUBLIC_KEY = b''
+CLERK_PRIVATE_KEY = b''
+HMAC_KEY = 'qANINWwDUWwLRto2EDAmYYTjCRymtW6vyvh5dQ07'

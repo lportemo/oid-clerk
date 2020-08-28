@@ -13,10 +13,10 @@ from hashlib import sha256
 
 ALGO = 'HS256'
 
-PUBLIC_KEY = b''
-PRIVATE_KEY = b''
+PUBLIC_KEY = settings.CLERK_PUBLIC_KEY
+PRIVATE_KEY = settings.CLERK_PRIVATE_KEY
 
-HMAC_KEY = str.encode('aRgQRplERMzk6Lmyyt2rpNmxLNuZJyfDkwN8SSts')
+HMAC_KEY = str.encode(settings.HMAC_KEY)
 
 
 def set_cookie(response, key, value):
@@ -35,6 +35,7 @@ def craft(request):
     uid = social_user.uid
     host = social_user.extra_data['ws_host']
     port = social_user.extra_data['ws_port']
+    port_viewer = port
     room = social_user.extra_data['ws_room']
     #uid, host, port, room = 'toto', 'localhost', '4242', 'midlab'
 
@@ -44,7 +45,7 @@ def craft(request):
 
     response = HttpResponse('', status=200)
     for key, value in [('jwt', jwt_encoded), ('WS_UID', uid), ('WS_HOST', host),
-                       ('WS_PORT', port), ('WS_ROOM', room)]:
+                       ('WS_PORT', port), ('WS_ROOM', room), ('WS_PORT_VIEWER', port_viewer)]:
         set_cookie(response, key, value)
     return response
 
